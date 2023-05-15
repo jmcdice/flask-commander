@@ -6,17 +6,12 @@ This project provides a simple Flask application that allows users to execute sh
 The main Flask application (app.py) consists of two routes:
 
 - /hello: This is a simple GET endpoint that returns "Hello, World!" when accessed.
-
 - /exec: This POST endpoint receives a JSON object containing a shell command and a security token. If the provided security token matches the FLASK_TOKEN environment variable, the shell command is executed inside the Docker container. The output of the command is then returned in the response.
 
-The Dockerfile included in this project creates a Docker image for the Flask application. It uses a multi-stage build process, where the first stage prepares the application files and the second stage sets up the production environment and installs the application. This approach makes the final Docker image smaller and cleaner.
+## Security Notice
+Don't use this in production. While this project is designed for development use, it's important to note that it should not be used in production environments. Allowing arbitrary command execution through an HTTP API presents a significant security risk. Unauthorized access to this API could potentially allow an attacker to execute malicious commands inside your Docker container. The FLASK_TOKEN is used as a simple form of authentication, but it does not provide enough security for a production environment.
 
-The README file contains instructions for deploying this Docker image to Google Cloud Run using the Google Cloud SDK (gcloud). It also shows how to use curl to make requests to the /hello and /exec endpoints of the deployed application.
-
-Security Notice
-While this project is designed for development use, it's important to note that it should not be used in production environments. Allowing arbitrary command execution through an HTTP API presents a significant security risk. Unauthorized access to this API could potentially allow an attacker to execute malicious commands inside your Docker container. The FLASK_TOKEN is used as a simple form of authentication, but it does not provide enough security for a production environment.
-
-Using this project
+## Using this project
 
 ### setup project env vars
 ```console
