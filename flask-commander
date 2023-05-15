@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+source env.sh
+
+exec_command() {
+    local command=$1
+
+    curl -s -X POST -H "Content-Type: application/json" \
+      -d "{\"command\":\"$command\", \"token\":\"${FLASK_TOKEN}\"}" \
+      ${URL}/exec | jq -r .output
+}
+
+
+clear
+echo "Entering remote shell mode. Type 'exit' to return to the main menu."
+while true; do
+  PS=$(date "+%H:%M") 
+  read -p "(${PS}) $ " cmd
+  if [ "$cmd" == "exit" ]; then
+    break
+  fi
+  exec_command "$cmd"
+done
+
+
