@@ -11,18 +11,27 @@ function docker_build() {
 function deploy_cloud_run() {
 
   echo "Deploying to Google Cloud Run..." 
-  gcloud run deploy exec-api \
+  gcloud run deploy ic-exec-api \
   --project=$PROJECT_ID \
   --image gcr.io/$PROJECT_ID/$IMAGE:latest \
   --platform managed \
   --no-cpu-throttling \
   --region $REGION \
   --allow-unauthenticated \
-  --memory 2Gi \
-  --cpu 2 \
+  --memory 1Gi \
+  --cpu 1 \
   --set-env-vars "FLASK_TOKEN=${FLASK_TOKEN}"
 }
 
-docker_build
-deploy_cloud_run
+case $1 in
+  build)
+    docker_build
+    ;;
+  deploy)
+    deploy_cloud_run
+    ;;
+  *)
+    echo "Invalid option. Use either 'build' or 'deploy'."
+    ;;
+esac
 

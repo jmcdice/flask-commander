@@ -13,7 +13,9 @@ Don't use this in production. While this project is designed for development use
 
 ## Using this project
 
-### setup project env vars
+Dev work was done on cloud-run so instructions are GCP-centric (gcr/cloud-run), but it'll work on whatever..
+
+### Setup project env vars
 ```console
  export PROJECT_ID='your-gcp-project-id'
  export REGION='gcp-region'
@@ -33,7 +35,7 @@ Don't use this in production. While this project is designed for development use
   docker push gcr.io/${PROJECT_ID}/${IMAGE}
 ```
 
-### Deploy the app to cloud-run
+### Deploy the image/app to cloud-run
 ```console
   gcloud run deploy exec-api \
   --project=$PROJECT_ID \
@@ -49,8 +51,9 @@ Don't use this in production. While this project is designed for development use
 
 ### Export the URL as a var and hit /hello:
 ```console
-  export URL='https://exec-api-niiqsik64q-uc.a.run.app'
-  curl ${URL}/hello
+  vim env.sh
+  export URL='https://the-url-you-got-back.run.app'
+  source env.sh
 ```
 
 ### POST a command to run:
@@ -69,7 +72,17 @@ Don't use this in production. While this project is designed for development use
 
 ## Putting it all together.
 ```console
-  ./flask-commander.sh  
+  ./flask-commander
+```
+
+### Commands to try
+```console
+  apt-get update
+  apt-get -y install procps
+  ps auxwww
+  top -b -n 1
+  find / | grep log$
+  df -h
 ```
 
 ![Screenshot](screenshot.png)
