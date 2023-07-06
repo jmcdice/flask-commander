@@ -11,7 +11,7 @@ function docker_build() {
 function deploy_cloud_run() {
 
   echo "Deploying to Google Cloud Run..." 
-  gcloud run deploy ic-exec-api \
+  gcloud run deploy $IMAGE \
   --project=$PROJECT_ID \
   --image gcr.io/$PROJECT_ID/$IMAGE:latest \
   --platform managed \
@@ -23,6 +23,14 @@ function deploy_cloud_run() {
   --set-env-vars "FLASK_TOKEN=${FLASK_TOKEN}"
 }
 
+function delete_cloud_run() {
+  echo "Deleting Cloud Run Service..."
+  gcloud run services delete $IMAGE \
+  --project=$PROJECT_ID \
+  --platform managed \
+  --region $REGION
+}
+
 case $1 in
   build)
     docker_build
@@ -30,8 +38,11 @@ case $1 in
   deploy)
     deploy_cloud_run
     ;;
+  delete)
+    delete_cloud_run
+    ;;
   *)
-    echo "Invalid option. Use either 'build' or 'deploy'."
+    echo "Invalid option. Use either 'build', 'deploy' or 'delete'."
     ;;
 esac
 
